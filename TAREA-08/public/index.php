@@ -4,16 +4,24 @@ require_once "../src/GeoAPI.php";
 require_once "../src/WeatherAPI.php";
 require_once "../src/ElevationAPI.php";
 
+require_once "../src/BigBookAPI.php";
+
 // Instanciamos los servicios
 $geo = new GeoAPI();
 $weather = new WeatherAPI();
 $elevation = new ElevationAPI();
 
+// CÓDIGO NOEMI - servicio Big Book
+$booksAPI = new BigBookAPI();
+
 // Variable donde guardaremos los datos finales
 $data = null;
 
+$error = null;
+
 // SI EL USUARIO HA ENVIADO UNA CIUDAD
 if (isset($_GET["city"])) {
+    $letra = null;
 
     $city = trim($_GET["city"]);
 
@@ -32,7 +40,7 @@ if (isset($_GET["city"])) {
         $elevationData = $elevation->getElevation($lat, $lon);
 
         // VALIDACIÓN DE RESPUESTA DE OPEN‑METEO
-        
+
         if (
             isset($weatherData["current_weather"]["temperature"]) &&
             isset($weatherData["current_weather"]["windspeed"]) &&
@@ -49,6 +57,37 @@ if (isset($_GET["city"])) {
                 "code" => $weatherData["current_weather"]["weathercode"],
                 "elevation" => $elevationData
             ];
+
+
+            // CÓDIGO NOEMI
+            // la letra será el primer caracter de la ciudad en mayúscula
+            $letra = strtoupper($city[0]);
+
+            if ($letra) {
+
+                // buscamos el libro por la letra del título (método definido en BigBookAPI.php)
+                $books = $booksAPI->buscarPorLetraTitulo($letra);
+
+                // creamos un array vacío para guardar los libros que encontremos
+                $librosFiltrados = [];
+
+                // si se encuentran libros, evaluaremos cada libro para ver si cumple la condición
+                if ($books && isset($books["books"])) {
+
+                    // usamos dos foreach porque los datos de los libros están guardados dentro de dos arrays
+                    foreach ($books["books"] as $grupo) {
+                        foreach($grupo as $book){
+
+                            // convertimos los caracteres del título a mayúscula para comprobar que el primero coincida con la primera letra de la ciudad, que también está en mayúsculas
+                            if (isset($book["title"]) && strtoupper($book["title"][0] === $letra)) {
+                                
+                                // añadimos al array los libros
+                                $librosFiltrados[] = $book;
+                            }
+                        }
+                    }
+                }
+            }
 
         } else {
             // Error si Open‑Meteo no devuelve datos válidos
@@ -117,44 +156,66 @@ if (isset($_GET["city"])) {
         }
     </style>
 </head>
+
 <body>
 
-<h1>🌦 Aplicación Web Híbrida – Tiempo y Mapa</h1>
+    <h1>🌦 Aplicación Web Híbrida – Tiempo y Mapa</h1>
 
-<!-- FORMULARIO DE BÚSQUEDA -->
-<form method="GET">
+    <!-- FORMULARIO DE BÚSQUEDA -->
+    <form method="GET">
 
-    <!-- Mostrar error si existe -->
-    <?php if (isset($error)): ?>
-        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+        <!-- Mostrar error si existe -->
+        <?php if (isset($error)): ?>
+            <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+
+        <input type="text" name="city" placeholder="Introduce una ciudad" required>
+        <button>Buscar</button>
+    </form>
+
+    <!-- SI HAY DATOS, MOSTRAR TARJETA Y MAPA -->
+    <?php if ($data): ?>
+        <div class="card">
+            <h2><?= htmlspecialchars($data["city"]) ?></h2>
+            <p><strong>Temperatura:</strong> <?= $data["temp"] ?> °C</p>
+            <p><strong>Viento:</strong> <?= $data["wind"] ?> km/h</p>
+            <p><strong>Código meteorológico:</strong> <?= $data["code"] ?></p>
+            <p><strong>Altitud:</strong> <?= $data["elevation"] ?> m</p>
+        </div>
+
+        <!-- Mapa -->
+        <div id="map"></div>
+
+        <!-- Scripts -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="app.js"></script>
+
+        <script>
+            // Cargar mapa desde app.js
+            loadMap(<?= $data["lat"] ?>, <?= $data["lon"] ?>);
+        </script>
+
     <?php endif; ?>
 
-    <input type="text" name="city" placeholder="Introduce una ciudad" required>
-    <button>Buscar</button>
-</form>
-
-<!-- SI HAY DATOS, MOSTRAR TARJETA Y MAPA -->
-<?php if ($data): ?>
+    <!-- CÓDIGO NOEMI 
+ Mostramos los libros en la web
+-->
+<?php if (!empty($librosFiltrados)): ?>
 <div class="card">
-    <h2><?= htmlspecialchars($data["city"]) ?></h2>
-    <p><strong>Temperatura:</strong> <?= $data["temp"] ?> °C</p>
-    <p><strong>Viento:</strong> <?= $data["wind"] ?> km/h</p>
-    <p><strong>Código meteorológico:</strong> <?= $data["code"] ?></p>
-    <p><strong>Altitud:</strong> <?= $data["elevation"] ?> m</p>
+    <h3>Libros que empiezan por "<?= strtoupper($city[0]) ?>"</h3>
+
+    <?php foreach ($librosFiltrados as $book): ?>
+        <p>
+            <strong><?= htmlspecialchars($book["title"]) ?></strong><br>
+        </p>
+        <hr>
+    <?php endforeach; ?>
 </div>
 
-<!-- Mapa -->
-<div id="map"></div>
-
-<!-- Scripts -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="app.js"></script>
-
-<script>
-    // Cargar mapa desde app.js
-    loadMap(<?= $data["lat"] ?>, <?= $data["lon"] ?>);
-</script>
-
+<?php elseif ($data): ?>
+<div class="card">
+    <p>No hay libros que coincidan con esa letra.</p>
+</div>
 <?php endif; ?>
 
 </body>
