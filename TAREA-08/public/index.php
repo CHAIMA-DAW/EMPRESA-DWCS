@@ -4,6 +4,7 @@ require_once "../src/GeoAPI.php";
 require_once "../src/WeatherAPI.php";
 require_once "../src/ElevationAPI.php";
 
+// CÓDIGO NOEMI - carga BigBookAPI
 require_once "../src/BigBookAPI.php";
 
 // Instanciamos los servicios
@@ -204,6 +205,7 @@ if (isset($_GET["city"])) {
 <div class="card">
     <h3>Libros que empiezan por "<?= strtoupper($city[0]) ?>"</h3>
 
+    <!-- Por cada libro, devolvemos el título -->
     <?php foreach ($librosFiltrados as $book): ?>
         <p>
             <strong><?= htmlspecialchars($book["title"]) ?></strong><br>
@@ -212,6 +214,7 @@ if (isset($_GET["city"])) {
     <?php endforeach; ?>
 </div>
 
+<!-- Si no hay libros que coincidan: -->
 <?php elseif ($data): ?>
 <div class="card">
     <p>No hay libros que coincidan con esa letra.</p>
