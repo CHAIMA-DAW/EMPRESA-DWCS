@@ -6,6 +6,9 @@ require_once "../src/ElevationAPI.php";
 
 require_once "../src/BigBookAPI.php";
 
+//Código Sergio - Cargar clase PokeAPI
+require_once "../src/PokeAPI.php";
+
 // Instanciamos los servicios
 $geo = new GeoAPI();
 $weather = new WeatherAPI();
@@ -14,10 +17,16 @@ $elevation = new ElevationAPI();
 // CÓDIGO NOEMI - servicio Big Book
 $booksAPI = new BigBookAPI();
 
+//Código Sergio - servicio PokeAPI
+$pokemonAPI = new PokemonAPI();
+
 // Variable donde guardaremos los datos finales
 $data = null;
 
 $error = null;
+
+//Código Sergio - Variable para el pokemon aleatorio
+$pokemonAleatorio = null;
 
 // SI EL USUARIO HA ENVIADO UNA CIUDAD
 if (isset($_GET["city"])) {
@@ -76,11 +85,11 @@ if (isset($_GET["city"])) {
 
                     // usamos dos foreach porque los datos de los libros están guardados dentro de dos arrays
                     foreach ($books["books"] as $grupo) {
-                        foreach($grupo as $book){
+                        foreach ($grupo as $book) {
 
                             // convertimos los caracteres del título a mayúscula para comprobar que el primero coincida con la primera letra de la ciudad, que también está en mayúsculas
                             if (isset($book["title"]) && strtoupper($book["title"][0] === $letra)) {
-                                
+
                                 // añadimos al array los libros
                                 $librosFiltrados[] = $book;
                             }
@@ -89,11 +98,12 @@ if (isset($_GET["city"])) {
                 }
             }
 
+            // Código Sergio - Obtención del pokemon
+            $pokemonAleatorio = $pokemonAPI->getRandomPokemon();
         } else {
             // Error si Open‑Meteo no devuelve datos válidos
             $error = "No se han podido obtener datos del tiempo desde Open‑Meteo.";
         }
-
     } else {
         $error = "No se han encontrado coordenadas para esa ciudad.";
     }
@@ -101,6 +111,7 @@ if (isset($_GET["city"])) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>TAREA 08 - Aplicación Web Híbrida</title>
@@ -200,23 +211,44 @@ if (isset($_GET["city"])) {
     <!-- CÓDIGO NOEMI 
  Mostramos los libros en la web
 -->
-<?php if (!empty($librosFiltrados)): ?>
-<div class="card">
-    <h3>Libros que empiezan por "<?= strtoupper($city[0]) ?>"</h3>
+    <?php if (!empty($librosFiltrados)): ?>
+        <div class="card">
+            <h3>Libros que empiezan por "<?= strtoupper($city[0]) ?>"</h3>
 
-    <?php foreach ($librosFiltrados as $book): ?>
-        <p>
-            <strong><?= htmlspecialchars($book["title"]) ?></strong><br>
-        </p>
-        <hr>
-    <?php endforeach; ?>
-</div>
+            <?php foreach ($librosFiltrados as $book): ?>
+                <p>
+                    <strong><?= htmlspecialchars($book["title"]) ?></strong><br>
+                </p>
+                <hr>
+            <?php endforeach; ?>
+        </div>
 
-<?php elseif ($data): ?>
-<div class="card">
-    <p>No hay libros que coincidan con esa letra.</p>
-</div>
-<?php endif; ?>
+    <?php elseif ($data): ?>
+        <div class="card">
+            <p>No hay libros que coincidan con esa letra.</p>
+        </div>
+    <?php endif; ?>
+
+    <!-- Código Sergio - Mostrar el pokemon aleatorio -->
+
+    <?php
+    // Solo dibujamos la tarjeta si el index.php consiguió el Pokémon y la ciudad
+    if (isset($pokemonAleatorio) && $pokemonAleatorio && isset($data)) {
+    ?>
+
+        <div class="card" style="border: 2px solid #ef5350;">
+            <h3>¡Un Pokémon salvaje apareció en <?= htmlspecialchars($data["city"]) ?>!</h3>
+            <p><strong><?= ucfirst($pokemonAleatorio['name']) ?></strong> (#<?= $pokemonAleatorio['id'] ?>)</p>
+
+            <?php if ($pokemonAleatorio['sprites']['front_default']): ?>
+                <img src="<?= $pokemonAleatorio['sprites']['front_default'] ?>" alt="<?= ucfirst($pokemonAleatorio['name']) ?>" style="width: 150px; height: 150px;">
+            <?php endif; ?>
+        </div>
+
+    <?php
+    }
+    ?>
 
 </body>
+
 </html>
