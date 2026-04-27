@@ -1,0 +1,79 @@
+TAREA 08 – Aplicación Web Híbrida
+En esta tarea he desarrollado una aplicación web híbrida que integra datos procedentes de varias APIs REST externas, siguiendo los contenidos del Tema 8 del módulo DWES.
+
+La aplicación permite introducir una ciudad y obtener:
+
+Coordenadas geográficas mediante la API Nominatim (OpenStreetMap).
+
+Información meteorológica actual mediante la API Open‑Meteo, que no requiere API key y devuelve datos en formato JSON.
+
+Altitud del terreno mediante la API Open‑Elevation.
+
+Visualización en un mapa interactivo mediante Leaflet y OpenStreetMap.
+
+Tecnologías utilizadas
+PHP 8
+
+cURL para realizar peticiones HTTP
+
+JSON para procesar las respuestas
+
+APIs REST externas
+
+Leaflet para mapas interactivos
+
+VirtualHost en Apache
+
+Git y GitHub para control de versiones
+
+Arquitectura del proyecto
+El proyecto se divide en:
+
+src/ → Clases PHP que consumen las APIs
+
+public/ → Interfaz web, mapa y lógica de presentación
+
+docs/ → Documentación de la tarea
+
+Funcionamiento
+El usuario introduce una ciudad.
+
+La aplicación consulta Nominatim para obtener latitud y longitud.
+
+Con esas coordenadas se consulta Open‑Meteo para obtener el tiempo actual.
+
+Se consulta Open‑Elevation para obtener la altitud.
+
+Se muestra una tarjeta con los datos y un mapa interactivo centrado en la ubicación.
+
+Conclusión
+La aplicación cumple con la definición de mashup o aplicación web híbrida, combinando datos de múltiples servicios externos y presentándolos de forma integrada.
+El uso de APIs REST, JSON, cURL y mapas interactivos demuestra los conocimientos adquiridos en el Tema 8.
+
+EXPLICACIÓN PASO A PASO:
+1. Entrada del usuario
+El usuario introduce una ciudad en un formulario HTML.
+
+2. Geocodificación
+La clase GeoAPI.php consulta Nominatim y obtiene latitud y longitud.
+
+3. Tiempo actual
+La clase WeatherAPI.php consulta Open‑Meteo usando esas coordenadas.
+
+4. Altitud
+La clase ElevationAPI.php consulta Open‑Elevation.
+
+5. Integración
+index.php combina los datos y genera una tarjeta con la información.
+
+6. Mapa interactivo
+app.js carga Leaflet y centra el mapa en la ubicación obtenida.
+
+7. Presentación
+El usuario ve:
+
+Datos meteorológicos
+
+Altitud
+
+Mapa interactivo
