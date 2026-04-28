@@ -57,7 +57,7 @@ TAREA-08/
 
 ## 👤 Autor
 
-Chaima Nichami Oufkir  
+Chaima  
 Ciclo: Desarrollo de Aplicaciones Web  
 Módulo: DWES – Aplicaciones Web Híbridas  
 
