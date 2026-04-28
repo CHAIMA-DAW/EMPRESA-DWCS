@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card shadow p-5" style="max-width: 500px; margin: 0 auto;">
+
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        <h1 class="h3 mb-3 font-weight-normal text-center">Registro</h1>
+
+        {{ form_start(registrationForm) }}
+        {{ form_errors(registrationForm) }}
+
+        <div class="mb-3">
+            {{ form_row(registrationForm.email, {
+                label: 'Correo electrónico',
+                attr: {
+                    class: 'form-control form-control-lg',
+                    style: 'padding: 14px; border-radius: 8px;'
+                }
+            }) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Contraseña',
+                attr: {
+                    class: 'form-control form-control-lg',
+                    style: 'padding: 14px; border-radius: 8px;'
+                }
+            }) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_row(registrationForm.agreeTerms, {
+                label: 'Aceptar términos'
+            }) }}
+        </div>
+
+        <button class="btn btn-lg btn-primary w-100" type="submit">
+            Registrarse
+        </button>
+
+        {{ form_end(registrationForm) }}
+
+    </div>
+</div>
+{% endblock %}

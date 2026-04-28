@@ -1,0 +1,55 @@
+# General
+Librería: Librería
+Inicio: Inicio
+Acceso: Acceso
+Registro: Registro
+Cerrar sesión: Cerrar sesión
+Todos los derechos reservados: Todos los derechos reservados
+
+# Home
+"Bienvenida a la Librería": "Bienvenida a la Librería"
+"Aplicación web para la administración de libros": "Aplicación web para la administración de libros"
+"Ver catálogo": "Ver catálogo"
+"Objetivo del proyecto": "Objetivo del proyecto"
+"Funcionalidades principales": "Funcionalidades principales"
+"Listado completo de libros": "Listado completo de libros"
+"Creación, edición y eliminación de registros": "Creación, edición y eliminación de registros"
+"Acceso mediante registro e inicio de sesión": "Acceso mediante registro e inicio de sesión"
+"Interfaz moderna y responsive": "Interfaz moderna y responsive"
+
+# Libros
+"Listado de libros": "Listado de libros"
+Id: Id
+Título: Título
+Autor: Autor
+Descripción: Descripción
+Precio: Precio
+Acciones: Acciones
+Mostrar: Mostrar
+Editar: Editar
+Eliminar: Eliminar
+"Crear nuevo libro": "Crear nuevo libro"
+"Volver al listado": "Volver al listado"
+"Actualizar": "Actualizar"
+"Editar libro": "Editar libro"
+"Mostrar libro": "Mostrar libro"
+"¿Estás segura de que quieres eliminar este elemento?": "¿Estás segura de que quieres eliminar este elemento?"
+
+# Formularios
+Guardar: Guardar
+Enviar: Enviar
+
+# Login / Registro
+"Iniciar sesión": "Iniciar sesión"
+"Por favor, inicia sesión": "Por favor, inicia sesión"
+"Correo electrónico": "Correo electrónico"
+Contraseña: Contraseña
+"Recuérdame": "Recuérdame"
+Entrar: Entrar
+"Registrar nueva cuenta": "Registrar nueva cuenta"
+
+# Errores
+"No encontrado": "No encontrado"
+"Error interno del servidor": "Error interno del servidor"
+"Volver al inicio": "Volver al inicio"
+

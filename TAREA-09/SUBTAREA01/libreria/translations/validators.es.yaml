@@ -1,0 +1,6 @@
+validators:
+    "This value should not be blank.": "Este campo no puede estar vacío."
+    "There is already an account with this email": "Ya existe una cuenta con este correo electrónico."
+    "Your password should be at least 6 characters": "La contraseña debe tener al menos 6 caracteres."
+    "Please enter a password": "Por favor, introduce una contraseña."
+    "Please enter your email": "Por favor, introduce tu correo electrónico."

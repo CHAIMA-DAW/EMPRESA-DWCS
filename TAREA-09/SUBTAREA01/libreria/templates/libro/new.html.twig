@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear nuevo libro{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+
+        <h1 class="text-center mb-4">Crear nuevo libro</h1>
+
+        {{ include('libro/_form.html.twig', {'button_label': 'Crear'}) }}
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_libro_index') }}" class="btn btn-secondary">
+                ← Volver al listado
+            </a>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

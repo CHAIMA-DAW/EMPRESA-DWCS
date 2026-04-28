@@ -1,0 +1,45 @@
+{{ form_start(form) }}
+
+<div class="mb-4">
+    {{ form_row(form.titulo, {
+        attr: {
+            class: 'form-control form-control-lg',
+            style: 'padding: 14px; border-radius: 8px;'
+        }
+    }) }}
+</div>
+
+<div class="mb-4">
+    {{ form_row(form.autor, {
+        attr: {
+            class: 'form-control form-control-lg',
+            style: 'padding: 14px; border-radius: 8px;'
+        }
+    }) }}
+</div>
+
+<div class="mb-4">
+    {{ form_row(form.descripcion, {
+        attr: {
+            class: 'form-control form-control-lg',
+            style: 'padding: 14px; border-radius: 8px; height: 160px;'
+        }
+    }) }}
+</div>
+
+<div class="mb-5">
+    {{ form_row(form.precio, {
+        attr: {
+            class: 'form-control form-control-lg',
+            style: 'padding: 14px; border-radius: 8px; max-width: 300px;'
+        }
+    }) }}
+</div>
+
+<div class="mt-4">
+    <button class="btn btn-primary btn-lg w-100" style="padding: 12px 0;">
+        {{ button_label|default('Guardar') }}
+    </button>
+</div>
+
+{{ form_end(form) }}

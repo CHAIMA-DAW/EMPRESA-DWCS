@@ -1,0 +1,15 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+        # Configurar Symfony en español por defecto
+    default_locale: es
+
+    translator:
+    # Configurar el traductor para que busque las traducciones en el directorio "translations" y use el español como idioma de respaldo
+        enabled: true
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks:
+            - es
+    # Configurar la sesión para que esté habilitada
+    session:
+        enabled: true

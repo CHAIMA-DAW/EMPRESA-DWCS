@@ -1,0 +1,7 @@
+#Configurar Symfony en español 
+framework:
+    default_locale: es
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks:
+            - es

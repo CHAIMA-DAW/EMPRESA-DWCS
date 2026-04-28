@@ -1,0 +1,7 @@
+security:
+    login:
+        invalid_credentials: "Credenciales incorrectas."
+        username: "Correo electrónico"
+        password: "Contraseña"
+        remember_me: "Recuérdame"
+        submit: "Acceder"
