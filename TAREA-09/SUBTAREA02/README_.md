@@ -19,7 +19,7 @@ Aplicación web desarrollada en Laravel para la gestión de productos, con auten
 
 ### 👥 Roles y acceso de usuario
 
-El rol ADMIN se asigna manualmente desde phpMyAdmin. Todos los usuariios registrados desde la web reciben automaticamente rol de CLIENTE. 
+El rol ADMIN se asigna manualmente desde phpMyAdmin. Todos los usuarios registrados desde la web reciben automaticamente rol de CLIENTE. 
 
 - Administrador: acceso completo al CRUD de productos.
 - Cliente: solo puede visualizar productos en modo lectura.
